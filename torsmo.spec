@@ -1,12 +1,12 @@
 Summary:	Tyopoyta ORvelo System MOnitor
 Summary(pl):	Monitor systemu dla X Window System
 Name:		torsmo
-Version:	0.15
+Version:	0.16
 Release:	1
 License:	distributable
 Group:		X11/Applications
 Source0:	http://dl.sourceforge.net/torsmo/%{name}-%{version}.tar.gz
-# Source0-md5:	ca193575096d3b5641d6f370ee9d2ac6
+# Source0-md5:	47d0d4548a8ed5006f2fe977ba7e8a75
 URL:		http://torsmo.sourceforge.net/
 BuildRequires:	XFree86-devel
 BuildRequires:	autoconf
