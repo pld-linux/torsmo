@@ -9,6 +9,8 @@ Source0:	http://dl.sourceforge.net/torsmo/%{name}-%{version}.tar.gz
 # Source0-md5:	ca193575096d3b5641d6f370ee9d2ac6
 URL:		http://torsmo.sourceforge.net/
 BuildRequires:	XFree86-devel
+BuildRequires:	autoconf
+BuildRequires:	automake
 BuildRequires:	help2man
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -35,9 +37,9 @@ Torsmo mo¿e pokazaæ wiele informacji o systemie, w³±czaj±c w to:
 - informacje o interfejsach sieciowych
 - u¿ycie pamiêci i swapu
 - nazwê hosta
-- architekturê ssytemu
+- architekturê systemu
 - nazwê systemu
-- temperaturê z sensorów i2c
+- temperaturê z czujników i2c
 
 %prep
 %setup -q
