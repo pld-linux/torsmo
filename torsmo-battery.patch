@@ -1,0 +1,96 @@
+diff -uNr torsmo-0.16-orig/linux.c torsmo-0.16/linux.c
+--- torsmo-0.16-orig/linux.c	2004-05-14 00:02:55.000000000 +0200
++++ torsmo-0.16/linux.c	2004-05-21 00:07:54.294243736 +0200
+@@ -395,7 +395,7 @@
+ 2241<@jupet†kellari†ˆ> 1.16 1.2 0x03 0x00 0x00 0x01 99% -1 ? monitori p‰‰ll‰ mutta ilman verkkovirtaa
+ */
+ 
+-#define ACPI_BATTERY_PATH "/proc/acpi/battery/BAT1/state"
++#define ACPI_BATTERY_BASE_PATH "/proc/acpi/battery"
+ #define APM_PATH "/proc/apm"
+ 
+ static FILE *acpi_bat_fp;
+@@ -407,8 +407,10 @@
+ 
+ static double last_battery_time;
+ 
+-void get_battery_stuff(char *buf, unsigned int n) {
++void get_battery_stuff(char *buf, unsigned int n, unsigned int b) {
+   static int rep, rep2;
++  char acpi_path[128];
++  snprintf(acpi_path, 127, "%s/BAT%d/state", ACPI_BATTERY_BASE_PATH, b);
+ 
+   /* don't update battery too often */
+   if (current_update_time - last_battery_time < 29.5) {
+@@ -420,7 +422,7 @@
+   /* first try ACPI */
+ 
+   if (acpi_bat_fp == NULL && apm_bat_fp == NULL)
+-    acpi_bat_fp = open_file(ACPI_BATTERY_PATH, &rep);
++    acpi_bat_fp = open_file(acpi_path, &rep);
+ 
+   if (acpi_bat_fp != NULL) {
+     int present_rate = -1;
+@@ -430,7 +432,7 @@
+     /* read last full capacity if it's zero */
+     if (acpi_last_full == 0) {
+       static int rep;
+-      FILE *fp = open_file("/proc/acpi/battery/BAT1/info", &rep);
++      FILE *fp = open_file(acpi_path, &rep);
+       if (fp != NULL) {
+         while (!feof(fp)) {
+           char b[256];
+diff -uNr torsmo-0.16-orig/torsmo.c torsmo-0.16/torsmo.c
+--- torsmo-0.16-orig/torsmo.c	2004-05-13 23:31:04.000000000 +0200
++++ torsmo-0.16/torsmo.c	2004-05-21 00:06:49.443102608 +0200
+@@ -453,6 +453,7 @@
+   union {
+     char *s;
+     int i;
++    int b; // battery number
+     long l;
+     struct net_stat *net;
+     struct {
+@@ -518,6 +519,13 @@
+   OBJ(acpitemp)
+   END
+   OBJ(battery)
++    int no;
++    if (arg) {
++      sscanf(arg, "%d", &no);
++    } else {
++       no = 0;
++    }
++    obj->data.b = no;
+   END
+   OBJ(cpu)
+     need_cpu_usage = 1;
+@@ -872,7 +880,7 @@
+       snprintf(p, n, "%d", (int) get_acpi_temperature());
+     }
+     OBJ(battery) {
+-      get_battery_stuff(p, n);
++      get_battery_stuff(p, n, obj->data.b);
+     }
+     OBJ(cpu) {
+       snprintf(p, n, "%d", (int) (cpu_usage*100.0));
+@@ -1848,7 +1856,6 @@
+ 
+ int main(int argc, char **argv) {
+   /* handle command line parameters that don't change configs */
+-
+   while (1) {
+     int c = getopt(argc, argv, getopt_string);
+     if (c == -1) break;
+diff -uNr torsmo-0.16-orig/torsmo.h torsmo-0.16/torsmo.h
+--- torsmo-0.16-orig/torsmo.h	2004-05-13 21:52:14.000000000 +0200
++++ torsmo-0.16/torsmo.h	2004-05-20 23:32:51.000000000 +0200
+@@ -30,7 +30,7 @@
+ double get_i2c_info(int *fd, const char *dev, const char *type, int n);
+ void get_load_average(double v[3]);
+ double get_acpi_temperature(void);
+-void get_battery_stuff(char *buf, unsigned int n);
++void get_battery_stuff(char *buf, unsigned int n, unsigned int b);
+ 
+ /* in torsmo.c */
+ 
