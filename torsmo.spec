@@ -1,5 +1,5 @@
 Summary:	Tyopoyta ORvelo System MOnitor
-Summary(pl):	Monitor systemu dla X Window System
+Summary(pl.UTF-8):   Monitor systemu dla X Window System
 Name:		torsmo
 Version:	0.18
 Release:	1
@@ -28,18 +28,18 @@ including:
 - system name, Linux for example
 - temperatures from i2c-sensors
 
-%description -l pl
-Torsmo jest monitorem systemu który siedzi w rogu ekranu. Torsmo
-wy¶wietlany jest na g³ównym oknie bez ¿adnych specjalnych wodotrysków.
-Torsmo mo¿e pokazaæ wiele informacji o systemie, w³±czaj±c w to:
-- wersjê j±dra
+%description -l pl.UTF-8
+Torsmo jest monitorem systemu ktÃ³ry siedzi w rogu ekranu. Torsmo
+wyÅ›wietlany jest na gÅ‚Ã³wnym oknie bez Å¼adnych specjalnych wodotryskÃ³w.
+Torsmo moÅ¼e pokazaÄ‡ wiele informacji o systemie, wÅ‚Ä…czajÄ…c w to:
+- wersjÄ™ jÄ…dra
 - czas pracy systemu
 - informacje o interfejsach sieciowych
-- u¿ycie pamiêci i swapu
-- nazwê hosta
-- architekturê systemu
-- nazwê systemu
-- temperaturê z czujników i2c
+- uÅ¼ycie pamiÄ™ci i swapu
+- nazwÄ™ hosta
+- architekturÄ™ systemu
+- nazwÄ™ systemu
+- temperaturÄ™ z czujnikÃ³w i2c
 
 %prep
 %setup -q
