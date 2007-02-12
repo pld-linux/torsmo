@@ -1,5 +1,5 @@
 Summary:	Tyopoyta ORvelo System MOnitor
-Summary(pl.UTF-8):   Monitor systemu dla X Window System
+Summary(pl.UTF-8):	Monitor systemu dla X Window System
 Name:		torsmo
 Version:	0.18
 Release:	1
